@@ -1,20 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
 import "./index.css";
-import ErrorPage from "./error-page.jsx";
+import {AuthProvider} from "./contexts/AuthContext.jsx";
+import {BrowserRouter} from "react-router-dom";
+import { ChakraProvider } from '@chakra-ui/react'
+import App from "./App.jsx";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Root />,
-        errorElement: <ErrorPage />,
-    },
-]);
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <BrowserRouter>
+            <ChakraProvider>
+                <AuthProvider>
+                    <App/>
+                </AuthProvider>
+            </ChakraProvider>
+        </BrowserRouter>
     </React.StrictMode>,
 )

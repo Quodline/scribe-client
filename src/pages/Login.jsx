@@ -27,13 +27,11 @@ export default function () {
 
         setIsLoading(true);
         await login({email, password});
-
-        setPassword('');
         setIsLoading(false);
     }
 
     return (
-        <VStack flex={1} justify="center" align="center">
+        <VStack w="full" flex={1} justify="center" align="center">
             <VStack rounded="md" shadow="md" bg="gray.50" spacing={4} px={12} py={4}>
                 <Heading size="md" my={4}>Sign in</Heading>
                 <FormControl isInvalid={Array.isArray(errors?.email)}>

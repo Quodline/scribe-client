@@ -7,6 +7,7 @@ import GuestLayout from "./layouts/GuestLayout.jsx";
 import ErrorPage from "./error-page.jsx";
 import {Flex, HStack, VStack} from "@chakra-ui/react";
 import Register from "./pages/Register.jsx";
+import NewPost from "./pages/NewPost.jsx";
 
 function App() {
     const {user, logout} = useAuthContext();
@@ -28,10 +29,11 @@ function App() {
                 </Flex>
             </HStack>
 
-            <VStack minHeight="90vh">
+            <VStack align="start" minHeight="90vh">
                 <Routes>
                     <Route element={<AuthLayout/>}>
                         <Route path="/" element={<Home/>}/>
+                        <Route path="/create-post" element={<NewPost/>}/>
                     </Route>
                     <Route element={<GuestLayout/>}>
                         <Route path="/login" element={<Login/>}/>

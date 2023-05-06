@@ -56,7 +56,21 @@ export const AuthProvider = ({children}) => {
         navigate("/login");
     }
 
-    return <AuthContext.Provider value={{user, errors, getUser, login, logout, register}}>{children}</AuthContext.Provider>
+    const checkUser = async () => {
+        if (!user) {
+            await getUser();
+        }
+    }
+
+    return <AuthContext.Provider value={{
+        user,
+        errors,
+        checkUser,
+        getUser,
+        login,
+        logout,
+        register
+    }}>{children}</AuthContext.Provider>
 }
 
 export default function useAuthContext() {

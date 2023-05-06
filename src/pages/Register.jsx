@@ -18,12 +18,10 @@ export default function () {
         await register({name, email, password, password_confirmation: passConfirm});
 
         setIsLoading(false);
-        setPassword('');
-        setPassConfirm('');
     }
 
     return (
-        <VStack flex={1} justify="center" align="center">
+        <VStack w="full" flex={1} justify="center" align="center">
             <VStack rounded="md" shadow="md" bg="gray.50" spacing={4} px={12} py={4}>
                 <Heading size="md" my={4}>Create a new account</Heading>
                 <FormControl isInvalid={Array.isArray(errors?.email)}>

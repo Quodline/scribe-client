@@ -16,7 +16,26 @@ export const AuthProvider = ({children}) => {
         setUser(data);
     }
 
+    const register = async ({name, email, password, password_confirmation}) => {
+        setErrors(null);
+
+        await csrf();
+
+        try {
+            await defaultApi.post('/register', {name, email, password, password_confirmation});
+
+            await getUser();
+            navigate('/');
+        } catch (e) {
+            if (e.response.status === 422) {
+                setErrors(e.response.data.errors);
+            }
+        }
+    }
+
     const login = async ({email, password}) => {
+        setErrors(null);
+
         await csrf();
 
         try {
@@ -37,9 +56,9 @@ export const AuthProvider = ({children}) => {
         navigate("/login");
     }
 
-    return <AuthContext.Provider value={{user, errors, getUser, login, logout}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{user, errors, getUser, login, logout, register}}>{children}</AuthContext.Provider>
 }
 
-export default function useAuthContext () {
+export default function useAuthContext() {
     return useContext(AuthContext);
 }

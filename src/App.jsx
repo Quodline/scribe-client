@@ -5,35 +5,40 @@ import useAuthContext from "./contexts/AuthContext.jsx";
 import AuthLayout from "./layouts/AuthLayout.jsx";
 import GuestLayout from "./layouts/GuestLayout.jsx";
 import ErrorPage from "./error-page.jsx";
+import {Flex, HStack, VStack} from "@chakra-ui/react";
+import Register from "./pages/Register.jsx";
 
 function App() {
     const {user, logout} = useAuthContext();
 
     return (
         <>
-            <header className="lg:px-48 flex flex-col lg:flex-row justify-between items-center shadow-md p-4">
-                <h1>App</h1>
-
-                <nav className="space-x-12">
-                    <Link className="link__main" to="/">Home</Link>
+            <HStack bg="teal.400" color="white" justify="space-between" p={4} spacing={12}>
+                <Link to="/">Scribe</Link>
+                <Flex gap={12}>
+                    <Link to="/">Home</Link>
                     {user ? (
-                        <button className="link__main" onClick={logout}>Logout</button>
+                        <button onClick={logout}>Logout</button>
                     ) : (
-                        <Link className="link__main" to="/login">Login</Link>
+                        <>
+                            <Link to="/register">Register</Link>
+                            <Link to="/login">Login</Link>
+                        </>
                     )}
-                </nav>
-            </header>
+                </Flex>
+            </HStack>
 
-            <main>
+            <VStack minHeight="90vh">
                 <Routes>
-                    <Route element={<AuthLayout/>} errorElement={<ErrorPage/>}>
+                    <Route element={<AuthLayout/>}>
                         <Route path="/" element={<Home/>}/>
                     </Route>
-                    <Route element={<GuestLayout />} errorElement={<ErrorPage/>}>
+                    <Route element={<GuestLayout/>}>
                         <Route path="/login" element={<Login/>}/>
+                        <Route path="/register" element={<Register/>}/>
                     </Route>
                 </Routes>
-            </main>
+            </VStack>
         </>
     );
 }

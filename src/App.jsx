@@ -7,7 +7,6 @@ import GuestLayout from "./layouts/GuestLayout.jsx";
 import {Flex, HStack, VStack} from "@chakra-ui/react";
 import Register from "./pages/Register.jsx";
 import NewPost from "./pages/NewPost.jsx";
-import env from "react-dotenv";
 
 function App() {
     const {user, logout} = useAuthContext();
@@ -15,7 +14,7 @@ function App() {
     return (
         <>
             <HStack bg="teal.400" color="white" justify="space-between" p={4} spacing={12}>
-                <Link to="/">{env.APP_NAME}</Link>
+                <Link to="/">{import.meta.env.APP_NAME}</Link>
                 <Flex gap={12}>
                     <Link to="/">Home</Link>
                     {user ? (

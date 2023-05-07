@@ -1,8 +1,7 @@
 import axios from "axios";
-import env from "react-dotenv";
 
 export default axios.create({
-    baseURL: env.BACKEND_URL,
+    baseURL: import.meta.env.BACKEND_URL,
     headers: {
         'Accept': 'application/json',
     },

@@ -14,7 +14,7 @@ function App() {
     return (
         <>
             <HStack bg="teal.400" color="white" justify="space-between" p={4} spacing={12}>
-                <Link to="/">{import.meta.env.APP_NAME}</Link>
+                <Link to="/">{import.meta.env.VITE_APP_NAME}</Link>
                 <Flex gap={12}>
                     <Link to="/">Home</Link>
                     {user ? (

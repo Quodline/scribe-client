@@ -19,8 +19,9 @@ export default function () {
 
         try {
             setErrors(null);
-            await defaultApi.get('/sanctum/csrf-cookie');
-            await defaultApi.post('/api/posts', {text_content: content});
+            await defaultApi.post('/api/posts', {text_content: content}, {
+                withCredentials: true,
+            });
             navigate('/');
         } catch (e) {
             if (e.response.status === 422) {

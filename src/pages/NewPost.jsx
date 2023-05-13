@@ -19,6 +19,7 @@ export default function () {
 
         try {
             setErrors(null);
+            await defaultApi.get('/sanctum/csrf-cookie');
             await defaultApi.post('/api/posts', {text_content: content});
             navigate('/');
         } catch (e) {

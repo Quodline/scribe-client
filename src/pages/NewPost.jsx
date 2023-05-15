@@ -8,10 +8,10 @@ export default function () {
     const [content, setContent] = useState('');
     const [errors, setErrors] = useState(null);
     const navigate = useNavigate();
-    const {user, checkUser} = useAuthContext();
+    const {fetchToken} = useAuthContext();
 
     useEffect(function () {
-        checkUser();
+        fetchToken();
     }, []);
 
     const handleSubmit = async event => {
@@ -19,10 +19,7 @@ export default function () {
 
         try {
             setErrors(null);
-            await defaultApi.get('/sanctum/csrf-cookie');
-            await defaultApi.post('/api/posts', {text_content: content}, {
-                withCredentials: true,
-            });
+            await defaultApi.post('/posts', {text_content: content});
             navigate('/');
         } catch (e) {
             if (e.response.status === 422) {

@@ -9,11 +9,11 @@ import {
     IconButton,
     Input,
     InputGroup,
-    InputRightElement,
+    InputRightElement, Link,
     VStack
 } from "@chakra-ui/react";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
-import {Link} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
 
 export default function () {
     const [email, setEmail] = useState('');
@@ -53,10 +53,10 @@ export default function () {
                     </InputGroup>
                     <FormErrorMessage>{errors?.password?.join(',')}</FormErrorMessage>
                 </FormControl>
-                <Button colorScheme="teal" alignSelf="stretch" onClick={handleLogin} isLoading={isLoading}
+                <Button bg="black" colorScheme="blackAlpha" alignSelf="stretch" onClick={handleLogin} isLoading={isLoading}
                         loadingText="Signing in">Sign in</Button>
             </VStack>
-            <Link to="/register">Create a new account</Link>
+            <Link as={RouterLink} to="/register">Create a new account</Link>
         </VStack>
     );
 }

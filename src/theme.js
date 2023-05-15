@@ -1,4 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
+import '@fontsource/rubik/700.css';
+import '@fontsource/source-sans-pro/400.css';
 
 const colors = {
     brand: {
@@ -8,5 +10,10 @@ const colors = {
     },
 }
 
-const theme = extendTheme({ colors });
+const fonts = {
+    heading: `'Rubik', sans-serif`,
+    body: `'Source Sans Pro', sans-serif`,
+}
+
+const theme = extendTheme({ colors, fonts });
 export default theme;

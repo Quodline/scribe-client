@@ -2,9 +2,7 @@ import {Link, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import useAuthContext from "./contexts/AuthContext.jsx";
-import AuthLayout from "./layouts/AuthLayout.jsx";
-import GuestLayout from "./layouts/GuestLayout.jsx";
-import {Flex, HStack, VStack} from "@chakra-ui/react";
+import {Flex, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import Register from "./pages/Register.jsx";
 import NewPost from "./pages/NewPost.jsx";
 
@@ -13,8 +11,10 @@ function App() {
 
     return (
         <>
-            <HStack bg="teal.400" color="white" justify="space-between" p={4} spacing={12}>
-                <Link to="/">{import.meta.env.VITE_APP_NAME}</Link>
+            <HStack bg="black" color="white" justify="space-between" p={4} spacing={12}>
+                <Link to="/">
+                    <Heading fontFamily="heading">{import.meta.env.VITE_APP_NAME}</Heading>
+                </Link>
                 <Flex gap={12}>
                     <Link to="/">Home</Link>
                     {user ? (
@@ -30,14 +30,10 @@ function App() {
 
             <VStack align="start" minHeight="90vh">
                 <Routes>
-                    <Route element={<AuthLayout/>}>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/create-post" element={<NewPost/>}/>
-                    </Route>
-                    <Route element={<GuestLayout/>}>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/register" element={<Register/>}/>
-                    </Route>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/create-post" element={<NewPost/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
                 </Routes>
             </VStack>
         </>

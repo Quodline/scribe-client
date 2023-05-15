@@ -1,30 +1,48 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import defaultApi from "../api/defaultApi.js";
 import {useNavigate} from "react-router-dom";
 
 const AuthContext = createContext({});
 
+const TOKEN_KEY = 'api_key';
+
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState(null);
+    const [token, setToken] = useState(null);
     const navigate = useNavigate();
 
-    const csrf = () => defaultApi.get('/sanctum/csrf-cookie');
+    useEffect(() => {
+        if (token) {
+            defaultApi.defaults.headers.common = {'Authorization': `Bearer ${token}`};
+        }
+    }, [token]);
 
-    const getUser = async () => {
-        const {data} = await defaultApi.get('/api/user');
-        setUser(data);
+    const storeToken = (token) => {
+        sessionStorage.setItem(TOKEN_KEY, token);
+    }
+
+    const fetchToken = async () => {
+        const sesToken = sessionStorage.getItem(TOKEN_KEY);
+
+        if (sesToken !== null) {
+            setToken(sesToken);
+            const {data} = await defaultApi.get('/user', {
+                headers: {'Authorization': `Bearer ${sesToken}`},
+            });
+            setUser(data);
+        } else {
+            navigate('/login');
+        }
     }
 
     const register = async ({name, email, password, password_confirmation}) => {
         setErrors(null);
 
-        await csrf();
-
         try {
-            await defaultApi.post('/register', {name, email, password, password_confirmation});
-
-            await getUser();
+            const {data} = await defaultApi.post('/register', {name, email, password, password_confirmation});
+            storeToken(data.access_token);
+            await fetchToken();
             navigate('/');
         } catch (e) {
             if (e.response.status === 422) {
@@ -36,12 +54,10 @@ export const AuthProvider = ({children}) => {
     const login = async ({email, password}) => {
         setErrors(null);
 
-        await csrf();
-
         try {
-            await defaultApi.post('/login', {email, password});
-
-            await getUser();
+            const {data} = await defaultApi.post('/login', {email, password});
+            storeToken(data.access_token);
+            await fetchToken();
             navigate('/');
         } catch (e) {
             if (e.response.status === 422) {
@@ -51,22 +67,16 @@ export const AuthProvider = ({children}) => {
     }
 
     const logout = async () => {
-        await defaultApi.post('/logout');
+        sessionStorage.removeItem(TOKEN_KEY);
+        setToken(null);
         setUser(null);
         navigate("/login");
-    }
-
-    const checkUser = async () => {
-        if (!user) {
-            await getUser();
-        }
     }
 
     return <AuthContext.Provider value={{
         user,
         errors,
-        checkUser,
-        getUser,
+        fetchToken,
         login,
         logout,
         register

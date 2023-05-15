@@ -10,15 +10,15 @@ dayjs.extend(relativeTime);
 
 export default function () {
     const [posts, setPosts] = useState([]);
-    const {user, checkUser} = useAuthContext();
+    const {user, fetchToken} = useAuthContext();
 
     const fetchAllPosts = async () => {
-        const {data} = await defaultApi.get('/api/posts');
+        const {data} = await defaultApi.get('/posts');
         setPosts(data);
     }
 
     useEffect(function () {
-        checkUser().then(fetchAllPosts);
+        fetchToken().then(fetchAllPosts);
     }, []);
 
     return (

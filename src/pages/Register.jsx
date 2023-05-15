@@ -45,7 +45,7 @@ export default function () {
                            onChange={e => setPassConfirm(e.target.value)}/>
                     <FormErrorMessage>Password does not match</FormErrorMessage>
                 </FormControl>
-                <Button colorScheme="teal" alignSelf="stretch" isLoading={isLoading} onClick={handleSubmit}
+                <Button bg="black" colorScheme="blackAlpha" alignSelf="stretch" isLoading={isLoading} onClick={handleSubmit}
                         loadingText="Submitting">Register</Button>
             </VStack>
             <Link to="/login">Sign in to an existing account</Link>

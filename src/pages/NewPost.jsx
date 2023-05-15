@@ -38,7 +38,7 @@ export default function () {
                 <FormErrorMessage>{errors?.text_content?.join(',')}</FormErrorMessage>
             </FormControl>
 
-            <Button colorScheme="teal" onClick={handleSubmit}>Publish</Button>
+            <Button bg="black" colorScheme="blackAlpha" onClick={handleSubmit}>Publish</Button>
         </VStack>
     );
 }

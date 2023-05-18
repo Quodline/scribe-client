@@ -66,6 +66,8 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    const clearErrors = () => setErrors(null);
+
     const logout = async () => {
         sessionStorage.removeItem(TOKEN_KEY);
         setToken(null);
@@ -76,6 +78,7 @@ export const AuthProvider = ({children}) => {
     return <AuthContext.Provider value={{
         user,
         errors,
+        clearErrors,
         fetchToken,
         login,
         logout,

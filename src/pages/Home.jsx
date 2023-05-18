@@ -1,6 +1,18 @@
 import React, {useEffect, useState} from "react";
 import useAuthContext from "../contexts/AuthContext.jsx";
-import {Button, Card, CardBody, CardFooter, CardHeader, Divider, Heading, Text, VStack} from "@chakra-ui/react";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Divider,
+    Heading,
+    HStack,
+    Select,
+    Text,
+    VStack
+} from "@chakra-ui/react";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import defaultApi from "../api/defaultApi.js";
@@ -10,16 +22,21 @@ dayjs.extend(relativeTime);
 
 export default function () {
     const [posts, setPosts] = useState([]);
+    const [filter, setFilter] = useState('all');
     const {user, fetchToken} = useAuthContext();
 
     const fetchAllPosts = async () => {
-        const {data} = await defaultApi.get('/posts');
+        const {data} = await defaultApi.get(`/posts?filter=${filter}`);
         setPosts(data);
     }
 
     useEffect(function () {
-        fetchToken().then(fetchAllPosts);
+        fetchToken();
     }, []);
+
+    useEffect(function () {
+        fetchAllPosts();
+    }, [filter])
 
     return (
         <VStack flex={1} p={4} w="full" align="start">
@@ -28,7 +45,13 @@ export default function () {
                 <Button>Create post</Button>
             </Link>
             <Divider my={8} />
-            <Heading size="md">Explore posts</Heading>
+            <HStack>
+                <Heading size="md" minW={200}>Explore posts</Heading>
+                <Select value={filter} onChange={e => setFilter(e.target.value)}>
+                    <option value='all'>All posts</option>
+                    <option value='user'>Your posts</option>
+                </Select>
+            </HStack>
             {posts.length ? posts.map((post, i) => (
                 <Card key={i} w="full">
                     <CardHeader>

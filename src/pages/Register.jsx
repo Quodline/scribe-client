@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import useAuthContext from '../contexts/AuthContext.jsx';
 import {Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, VStack} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
@@ -9,8 +9,9 @@ export default function () {
     const [password, setPassword] = useState('');
     const [passConfirm, setPassConfirm] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const {errors, register} = useAuthContext();
+    const {errors, clearErrors, register} = useAuthContext();
 
+    useEffect(clearErrors, []);
     const handleSubmit = async event => {
         event.preventDefault();
 

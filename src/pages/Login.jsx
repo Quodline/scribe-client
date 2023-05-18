@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import useAuthContext from '../contexts/AuthContext.jsx';
 import {
     Button,
@@ -20,7 +20,9 @@ export default function () {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const {login, errors} = useAuthContext();
+    const {login, errors, clearErrors} = useAuthContext();
+
+    useEffect(clearErrors, []);
 
     const handleLogin = async event => {
         event.preventDefault();

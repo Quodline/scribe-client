@@ -2,12 +2,24 @@ import {Link, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import useAuthContext from "./contexts/AuthContext.jsx";
-import {Flex, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {
+    Flex,
+    Heading,
+    HStack,
+    IconButton,
+    Menu,
+    MenuButton, MenuItem,
+    MenuList, useColorModeValue,
+    useMediaQuery,
+    VStack
+} from "@chakra-ui/react";
 import Register from "./pages/Register.jsx";
 import NewPost from "./pages/NewPost.jsx";
+import {HamburgerIcon} from "@chakra-ui/icons";
 
 function App() {
     const {user, logout} = useAuthContext();
+    const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
 
     return (
         <>
@@ -16,15 +28,35 @@ function App() {
                     <Heading fontFamily="heading">{import.meta.env.VITE_APP_NAME}</Heading>
                 </Link>
                 <Flex gap={12}>
-                    <Link to="/">Home</Link>
-                    {user ? (
-                        <button onClick={logout}>Logout</button>
-                    ) : (
-                        <>
-                            <Link to="/register">Register</Link>
-                            <Link to="/login">Login</Link>
-                        </>
-                    )}
+                    {user ? <>
+                            <Link to="/">Home</Link>
+                            <button onClick={logout}>Logout</button>
+                        </> : (
+                            isLargerThan800 ? <>
+                                <Link to="/register">Register</Link>
+                                <Link to="/login">Login</Link>
+                            </> : <>
+                                    <Menu>
+                                        {({ isOpen }) => (
+                                            <>
+                                                <MenuButton
+                                                    _hover={{ bg: "gray.600" }}
+                                                    _focus={{ bg: "gray.600" }}
+                                                    isActive={isOpen}
+                                                    as={IconButton}
+                                                    aria-label='Options'
+                                                    icon={<HamburgerIcon />} variant='outline'
+                                                />
+                                                <MenuList color="black">
+                                                    <MenuItem as={Link} to="/register">Register</MenuItem>
+                                                    <MenuItem as={Link} to="/login">Login</MenuItem>
+                                                </MenuList>
+                                            </>
+                                        )}
+                                    </Menu>
+                            </>
+                        )
+                    }
                 </Flex>
             </HStack>
 
